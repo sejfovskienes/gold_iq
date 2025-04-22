@@ -54,23 +54,39 @@ const Contact = () =>{
       const [subject, setSubject] = useState("");
       const [message, setMessage] = useState("");
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async(e) => {
     e.preventDefault();
 
 
     const mailData = {
-      email,
-      subject,
-      message,
+      to : email,
+      subject: subject,
+      body: message,
     };
 
-    console.log("Sending mail:", mailData);
+    try{
+        const response = await fetch ("http://localhost:8000/send-email", {
+          method:"POST",
+          headers:{
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify(mailData)
+        });
 
-    setEmail("");
-    setSubject("");
-    setMessage("");
+        if(!response.ok){
+          const errorData = await response.json();
+          throw new Error(errorData.detail || "Failed to send email");
+        }
 
-    alert("Your message has been sent!");
+        console.log("Email sent", await response.json())
+        setEmail("")
+        setSubject("")
+        setMessage("")
+
+        alert("✅ Your message has been sent!");
+    }catch(error){
+
+    }
   };
 
     return(

@@ -57,30 +57,67 @@ const AuthForm = () => {
       };
 
       const [isRegister, setIsRegister] = useState(true);
-        const [formData, setFormData] = useState({
+      const [formData, setFormData] = useState({
             fullName: "",
             email: "",
             password: "",
             repeatPassword: "",
-        });
+      });
 
   const handleChange = (e) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-
+  
     if (isRegister) {
-      console.log("Registering:", formData);
-    } else {
-      console.log("Logging in:", {
-        email: formData.email,
-        password: formData.password,
+      const response = await fetch("http://localhost:8000/register", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          full_name: formData.fullName,
+          email: formData.email,
+          password: formData.password,
+        }),
       });
-    }
+  
+      const data = await response.json();
+  
+      if (response.ok) {
+        alert("Registration successful!");
+        setIsRegister(false); 
+      } else {
+        alert(`Registration failed: ${data.detail}`);
+      }
+    } else {
+      
+      const response = await fetch("http://localhost:8000/login", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          email: formData.email,
+          password: formData.password,
+        }),
+      });
+  
+      const data = await response.json();
+  
+      if (response.ok) {
+        localStorage.setItem("token", data.access_token);
+        localStorage.setItem("fullName", data.full_name);
+        alert(`Welcome back, ${data.full_name}!`);
+        window.location.href = "/"; 
 
-    alert("Form submitted! Check console.");
+      } else {
+        alert(`Login failed: ${data.detail}`);
+      }
+    }
+  
     setFormData({
       fullName: "",
       email: "",
@@ -88,6 +125,8 @@ const AuthForm = () => {
       repeatPassword: "",
     });
   };
+  
+  
 
   return (
     <div style={containerStyle}>

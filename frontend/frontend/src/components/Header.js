@@ -1,8 +1,19 @@
 import React from "react";
-import { BrowserRouter as Router, Route, Routes, Link } from 'react-router-dom';
+import { BrowserRouter as Router, Link, useNavigate} from 'react-router-dom';
 
 
 const Header = () => {
+  const navigate = useNavigate();
+  const token = localStorage.getItem("token");
+
+  const handleLogout = () => {
+    localStorage.removeItem("token");
+    localStorage.removeItem("fullName");
+    navigate("/");
+  };
+
+  const isLoggedIn = !!token;
+
     const headerStyle = {
         width:"100%",
         height:"75px",
@@ -64,19 +75,22 @@ const Header = () => {
 
     return (
         
-            <header style={headerStyle}>
-                <h3 style={logoStyle}>GoldIQ</h3>
-                <nav>
-                    <Link to="/home" style={linkStyle}>Home</Link>
-                    <Link to="/about" style={linkStyle}>About</Link>
-                    <Link to="/contact" style={linkStyle}>Contact</Link>
-                </nav>
-                <div style={authDivStyle}>
-                    <div style={buttonStyle}>
-                        <Link to="/authenticate" style={buttonTextStyle}>Get started!</Link>
-                    </div>
-                </div>
-            </header>
+      <header style={{ backgroundColor: "#131842", display: "flex", justifyContent: "space-around", alignItems: "center", height: "75px" }}>
+      <h3 style={{ color: "#fff" }}>GoldIQ</h3>
+      <nav>
+        <Link to="/" style={linkStyle}>Home</Link>
+        <Link to="/about" style={linkStyle}>About</Link>
+        <Link to="/contact" style={linkStyle}>Contact</Link>
+        {isLoggedIn && <Link to="/dashboard" style={linkStyle}>Dashboard</Link>}
+      </nav>
+      <div>
+        {isLoggedIn ? (
+          <button onClick={handleLogout} style={buttonStyle}>Log out</button>
+        ) : (
+          <Link to="/authenticate" style={buttonStyle}>Get started!</Link>
+        )}
+      </div>
+    </header>
     )
 }
 

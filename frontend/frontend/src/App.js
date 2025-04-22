@@ -16,7 +16,7 @@ function App() {
       <Router>  
           <Header />
             <Routes>
-              <Route path="/home" element={<Home />}></Route>
+              <Route path="/" element={<Home />}></Route>
               <Route path="/contact" element={<Contact />}></Route>
               <Route path="/about" element={<About />}></Route>
               <Route path="/authenticate" element={<AuthForm />}></Route>
