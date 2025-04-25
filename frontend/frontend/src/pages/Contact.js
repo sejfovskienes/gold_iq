@@ -54,40 +54,41 @@ const Contact = () =>{
       const [subject, setSubject] = useState("");
       const [message, setMessage] = useState("");
 
-  const handleSubmit = async(e) => {
-    e.preventDefault();
-
-
-    const mailData = {
-      to : email,
-      subject: subject,
-      body: message,
-    };
-
-    try{
-        const response = await fetch ("http://localhost:8000/send-email", {
-          method:"POST",
-          headers:{
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify(mailData)
-        });
-
-        if(!response.ok){
-          const errorData = await response.json();
-          throw new Error(errorData.detail || "Failed to send email");
+      const handleSubmit = async (e) => {
+        e.preventDefault();
+      
+        const mailData = {
+          to: email,
+          subject: subject,
+          body: message,
+        };
+      
+        try {
+          const response = await fetch("http://localhost:8000/send-email", {
+            method: "POST",
+            headers: {
+              "Content-Type": "application/json",
+            },
+            body: JSON.stringify(mailData),
+          });
+      
+          if (!response.ok) {
+            const errorData = await response.json();
+            console.error("Error response from backend:", errorData);
+            throw new Error(errorData.detail || "Failed to send email");
+          }
+      
+          console.log("Email sent", await response.json());
+          setEmail("");
+          setSubject("");
+          setMessage("");
+      
+          alert("✅ Your message has been sent!");
+        } catch (error) {
+          console.error("Error sending email:", error);
+          alert("❌ Something went wrong: " + error.message);
         }
-
-        console.log("Email sent", await response.json())
-        setEmail("")
-        setSubject("")
-        setMessage("")
-
-        alert("✅ Your message has been sent!");
-    }catch(error){
-
-    }
-  };
+      };
 
     return(
          <div style={formContainerStyle}>
