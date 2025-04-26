@@ -16,13 +16,12 @@ from models.dto.SendEmailDto import SendEmailDto
 
 from services.JwtHandlingService import make_acces_token
 
-#--- app configurations
+#--- App Configuration
 
 app = FastAPI()
 
 origins = [
-    "http://localhost:3000/",
-    "http://localhost",
+    'http://localhost:3000',
 ]
 
 app.add_middleware(
@@ -57,7 +56,7 @@ def root():
 
 
 @app.post("/send-email")
-async def send_email(request: SendEmailDto, db: Session = Depends(get_db)): 
+def send_email(request: SendEmailDto, db: Session = Depends(get_db)): 
     db_email = EmailRequest(
         to=request.to,
         subject=request.subject,

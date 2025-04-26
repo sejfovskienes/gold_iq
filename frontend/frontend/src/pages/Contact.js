@@ -1,4 +1,5 @@
 import React, {useState} from "react";
+import axios from "axios";
 
 const Contact = () =>{
     const formContainerStyle = {
@@ -64,29 +65,22 @@ const Contact = () =>{
         };
       
         try {
-          const response = await fetch("http://localhost:8000/send-email", {
-            method: "POST",
+          const response = await axios.post("http://localhost:8000/send-email", mailData, {
             headers: {
               "Content-Type": "application/json",
             },
-            body: JSON.stringify(mailData),
           });
       
-          if (!response.ok) {
-            const errorData = await response.json();
-            console.error("Error response from backend:", errorData);
-            throw new Error(errorData.detail || "Failed to send email");
-          }
-      
-          console.log("Email sent", await response.json());
+          console.log("Email sent", response.data);
           setEmail("");
           setSubject("");
           setMessage("");
       
           alert("✅ Your message has been sent!");
         } catch (error) {
-          console.error("Error sending email:", error);
-          alert("❌ Something went wrong: " + error.message);
+          const errorMessage = error.response?.data?.detail || error.message;
+          console.error("Error sending email:", errorMessage);
+          alert("❌ Something went wrong: " + errorMessage);
         }
       };
 
