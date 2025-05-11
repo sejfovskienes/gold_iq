@@ -1,5 +1,6 @@
 import React from "react";
 import { BrowserRouter as Router, Link, useNavigate} from 'react-router-dom';
+import { BsGraphUpArrow } from "react-icons/bs";
 
 
 const Header = () => {
@@ -76,7 +77,7 @@ const Header = () => {
     return (
         
       <header style={{ backgroundColor: "#131842", display: "flex", justifyContent: "space-around", alignItems: "center", height: "75px" }}>
-      <h3 style={{ color: "#fff" }}>GoldIQ</h3>
+      <h2 style={{ color: "#fff", }}>GoldIQ</h2>
       <nav>
         <Link to="/" style={linkStyle}>Home</Link>
         <Link to="/about" style={linkStyle}>About</Link>
