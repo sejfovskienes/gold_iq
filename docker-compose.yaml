@@ -1,0 +1,40 @@
+
+
+services:
+  frontend:
+    build:
+      context: ./frontend/frontend
+    ports:
+      - "8000:8000"
+    working_dir: /app
+    command: npm start
+    volumes:
+      - ./frontend:/app
+    depends_on:
+      - backend
+    environment:
+      - PORT=8000
+
+  backend:
+    build:
+      context: ./backend/backend
+    ports:
+      - "8001:8001"
+    working_dir: /app
+    command: uvicorn app:app --host 0.0.0.0 --port 8001 --reload
+    volumes:
+      - ./backend/backend:/app
+    environment:
+      - PYTHONUNBUFFERED=1
+
+  chatbot:
+    build:
+      context: ./chatbot
+    ports:
+      - "8002:8002"
+    working_dir: /app
+    command: chainlit run chatbot.py --port 8002 --host 0.0.0.0
+    volumes:
+      - ./chatbot:/app
+    environment:
+      - PYTHONUNBUFFERED=1

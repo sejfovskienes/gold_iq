@@ -1,0 +1,17 @@
+FROM python:3.10
+
+WORKDIR /app
+
+COPY pyproject.toml uv.lock* ./
+
+RUN pip install uv && \
+    uv pip compile --generate-hashes pyproject.toml > requirements.txt && \
+    uv pip install --system -r requirements.txt && \
+    rm requirements.txt
+
+COPY . .
+
+EXPOSE 8002
+
+CMD ["chainlit", "run", "chatbot.py", "--host", "0.0.0.0", "--port", "8002"]
+
