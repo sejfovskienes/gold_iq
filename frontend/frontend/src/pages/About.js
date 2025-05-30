@@ -55,13 +55,13 @@ const About = () => {
 
       <h3 style={{ ...headingStyle, fontSize: "1.5rem", marginTop: "2rem" }}>🌐 Connect With Me</h3>
       <div style={socialContainerStyle}>
-        <a style={linkStyle} href="https://github.com/your-github" target="_blank" rel="noopener noreferrer">
+        <a style={linkStyle} href="https://github.com/sejfovskienes" target="_blank" rel="noopener noreferrer">
           GitHub
         </a>
-        <a style={linkStyle} href="https://linkedin.com/in/your-linkedin" target="_blank" rel="noopener noreferrer">
+        <a style={linkStyle} href="https://www.linkedin.com/in/enes-sejfovski-866607272/" target="_blank" rel="noopener noreferrer">
           LinkedIn
         </a>
-        <a style={linkStyle} href="https://facebook.com/your-facebook" target="_blank" rel="noopener noreferrer">
+        <a style={linkStyle} href="https://www.facebook.com/enes.sejfovski" target="_blank" rel="noopener noreferrer">
           Facebook
         </a>
       </div>
